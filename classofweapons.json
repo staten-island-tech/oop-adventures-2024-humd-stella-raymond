@@ -1,0 +1,12 @@
+[{
+    "name":{
+        "stick": "stick" },
+    "base":{"damage": 5
+    }
+},
+{
+    "name":{
+        "basic_sword": "basic sword"},
+    "base":{"damage": 8} 
+}
+]
