@@ -19,7 +19,7 @@ weapons = {
     "Undead Scythe": {"damage": 23, "cost": 55},
     "Staff": {"damage": 28, "cost": 86},
     "Holy Staff": {"damage": 36, "cost": 130},
-    ""
+    "Celestial Blade": {"damage": 47, "cost": 200}
 }
 
 merchant = Merchant(
