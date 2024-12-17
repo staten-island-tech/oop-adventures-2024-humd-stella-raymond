@@ -24,5 +24,19 @@ class Skeleton(enemy):
 class CarnivorousPlant(enemy):
     def __init__(self, name): 
         super().__init__(name, 45, 25, 18)
-        
 
+class Wolf(enemy):
+    def __init__(self, name): 
+        super().__init__(name, 50, 32, 25)
+
+class Mage(enemy):
+    def __init__(self, name): 
+        super().__init__(name, 60, 50, 40)
+
+class Knight(enemy):
+    def __init__(self, name): 
+        super().__init__(name, 75, 40, 45)
+
+class EvilKing(enemy):
+    def __init__(self, name): 
+        super().__init__(name, 125, 65, 0)
