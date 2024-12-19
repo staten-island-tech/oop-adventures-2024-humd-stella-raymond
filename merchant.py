@@ -13,13 +13,13 @@ class Merchant:
 
 weapons = {
     "Basic Sword": {"damage": 8, "cost": 9},
-    "Silver Sword": {"damage": 10, "cost": 16},
-    "Basic Scythe": {"damage": 14, "cost": 20},
-    "Magic Wand": {"damage": 20, "cost": 40},
-    "Undead Scythe": {"damage": 23, "cost": 55},
-    "Staff": {"damage": 28, "cost": 86},
-    "Holy Staff": {"damage": 36, "cost": 130},
-    "Celestial Blade": {"damage": 47, "cost": 200}
+    "Silver Sword": {"damage": 10, "cost": 16, "crit chance": "20%"},
+    "Basic Scythe": {"damage": 14, "cost": 20, "crit chance": "23%"},
+    "Magic Wand": {"damage": 20, "cost": 40, "crit chance": "26%"},
+    "Undead Scythe": {"damage": 23, "cost": 55, "crit chance": "29%"},
+    "Staff": {"damage": 28, "cost": 86, "crit chance": "32%"},
+    "Holy Staff": {"damage": 36, "cost": 130, "crit chance": "35%"},
+    "Celestial Blade": {"damage": 47, "cost": 200, "crit chance": "38%"}
 }
 
 merchant = Merchant(
