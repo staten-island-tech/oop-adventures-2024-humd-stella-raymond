@@ -19,7 +19,7 @@ class Zombies(enemy):
 
 class Skeleton(enemy):
     def __init__(self, name): 
-        super().__init__(name, 35, 13, 9)
+        super().__init__(name, 35, 13, 9)                                                                                                                                                                                          
 
 class CarnivorousPlant(enemy):
     def __init__(self, name): 
@@ -39,4 +39,4 @@ class Knight(enemy):
 
 class EvilKing(enemy):
     def __init__(self, name): 
-        super().__init__(name, 125, 65, 0)
+        super().__init__(name, 125, 65, 0)`1    `
