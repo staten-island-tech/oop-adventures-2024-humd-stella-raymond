@@ -39,4 +39,16 @@ class Knight(enemy):
 
 class EvilKing(enemy):
     def __init__(self, name): 
-        super().__init__(name, 125, 65, 0)`1    `
+        super().__init__(name, 125, 65, 0)
+
+slime = Slime("Slime")
+goblin = Goblins("Goblin")
+zombie = Zombies("Zombie")
+skeleton = Skeleton("Skeleton")
+plant = CarnivorousPlant("Carnivorous Plant")
+wolf = Wolf("Wolf")
+mage = Mage("Mage")
+knight = Knight("Knight")
+evil_king = EvilKing("Evil King")
+
+print(f"{slime.name}: HP = {slime.HP}, Attack = {slime.attack}, Coin Drop = {slime.coin_drop}")
