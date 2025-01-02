@@ -12,13 +12,13 @@ def buy(self,item):
         self.inventory.remove(money)
 
 def die(self,item):
-        if self.HP <0:
-            return True
-            self.inventory.remove(item)
-            print(self.inventory)
-            self.money = 0 
-        else:
-            return False
+    if self.HP <0:
+        return True
+        self.inventory.remove(item)
+        print(self.inventory)
+        self.money = 0 
+    else:
+        return False
        
 def heal(self, amount):
         self.HP += amount
