@@ -12,15 +12,5 @@ def attack_enemy(weapon, enemy):
             print(f"{enemy.name} is still alive!")
     else:
         print(f"{enemy.name} is already defeated.")
-
-if __name__ == "__main__":
-    weapon = BasicSword()
-    enemy = Slime()
-
     print(f"Weapon: {weapon.name}, Damage: {weapon.damage}, Crit Chance: {weapon.critchance}%")
     print(f"Enemy: {enemy.name}, HP: {enemy.HP}, Attack: {enemy.attack}")
-
-    # Simulate attacks
-    attack_enemy(weapon, enemy)
-    attack_enemy(weapon, enemy)
-    attack_enemy(weapon, enemy)
