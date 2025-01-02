@@ -27,3 +27,13 @@ merchant = Merchant(
     potions = ["Healing Potion"],
     armor = ["Armor"]
 )
+
+class Armor:
+    def __init__(self, defense, damage):
+        self.defense = defense
+        self.damage = damage
+
+    def take_damage(self, damage):
+        reduced_damage = max(0, damage - self.defense)
+        print(f"Armor reduces damage by {self.defense}. Final damage taken: {reduced_damage}")
+        return reduced_damage
