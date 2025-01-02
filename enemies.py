@@ -5,6 +5,24 @@ class enemy:
         self.attack = attack
         self.coin_drop = coin_drop
 
+    def take_damage(self, damage):
+        self.HP -= damage
+        print(f"{self.name} takes {damage} damage. Remaining HP: {self.HP}")
+        if self.HP <= 0:
+            self.defeat()
+
+    def defeat(self):
+        print(f"{self.name} was defeated!")
+        global user_money
+        user_money += self.coin_drop
+        print(f"{user_name} earned {self.coin_drop} coins. Total money: {user_money}")
+
+    def attack_user(self):
+        global user_hp
+        print(f"{self.name} attacks {user_name} for {self.attack} damage.")
+        user_hp -= self.attack
+        print(f"{user_name} takes {self.attack} damage. Remaining HP: {user_hp}")
+
 class Slime(enemy):
     def __init__(self, name): 
         super().__init__(name, 15, 5, 3)
