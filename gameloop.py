@@ -1,5 +1,41 @@
 import time
 
+class Merchant:
+    def __init__(self, weapons, potions, armor, products):
+        self.weapons = weapons
+        self.potions = potions
+        self.armor = armor
+        self.products = products
+    def sell(self, item, user_balance):
+        item_cost = item["cost"]
+        if user_balance >= item_cost:
+            user_balance -= item_cost
+            self.products.remove(item)
+            print(f"You have purchased {item} for {item_cost} coins.")
+            print(f"Your remaining balance is {user_balance} coins.")
+            return user_balance
+        else:
+            print("You do not have enough coins to purchase this item.")
+            return user_balance
+
+weapons = {
+    "Basic Sword": {"damage": 8, "cost": 9},
+    "Silver Sword": {"damage": 10, "cost": 16, "crit chance": "20%"},
+    "Basic Scythe": {"damage": 14, "cost": 20, "crit chance": "23%"},
+    "Magic Wand": {"damage": 20, "cost": 40, "crit chance": "26%"},
+    "Undead Scythe": {"damage": 23, "cost": 55, "crit chance": "29%"},
+    "Staff": {"damage": 28, "cost": 86, "crit chance": "32%"},
+    "Holy Staff": {"damage": 36, "cost": 130, "crit chance": "35%"},
+    "Celestial Blade": {"damage": 47, "cost": 200, "crit chance": "38%"}
+}
+
+merchant = Merchant(
+    weapons = weapons,
+    potions = ["Healing Potion"],
+    armor = ["Armor"],
+    products = ["products"]
+)
+
 class User:
     def __init__(self, name, HP, money, attack):
         self.name = name
@@ -36,20 +72,19 @@ class User:
         return self.HP > 0
 
 
-
 def login():
     name = input("Enter your name: ")
     password = input("Enter your password: ")  # Password is not being validated here
     
-    user = User(name=name, HP=100, money=50, attack=10)
+    user = User(name=name, HP=100, money=0, attack=10)
     
     print(f"Welcome to the game, {user.name}!")
     return user
 
 def start_game():
     print("Starting the game...")
-    for i in range(2): 
-        time.sleep(1)  
+    for i in range(5): 
+        time.sleep(0.5)  
         print(".", end="", flush=True) 
     # game logic
 
@@ -60,6 +95,7 @@ def game_loop():
     
     if choice == "yes":
         start_game()  
+        print()
         print(f"{user.name}'s game has started.")
         print('Here is your user!')
         print(user)
