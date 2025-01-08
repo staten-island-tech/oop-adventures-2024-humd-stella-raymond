@@ -104,7 +104,7 @@ def story():
     print("You wake up in a dark and quiet forest. What happened? You can't remember...")
 
     time_between()
-    print("There's suddenly a loud sound. BAM!")
+    print("There's suddenly a loud sound of leaves rustling!")
 
     time.sleep(0.8)
     choice2 = input("Will you choose to investigate?").capitalize()
@@ -117,23 +117,48 @@ def story():
     elif choice2 == "No":
         loading()
         print("You choose to stay down on the ground. Suddenly, you hear something getting closer!")
+        time.sleep(0.8)
+        print ("You screamed in fear as it scared you from behind! But you recognized who it was...")
     else: 
         print("Invalid! Try again.")
+    
+    time_between()
+    print("It's the wizard! Who lived in the village! And the Merchant!")
+
+    time.sleep(0.8)
+    choice3 = input("What would you like to ask them? 1) What happened? 2) Where am I?").capitalize()
+
+    if choice3 == "1":
+        loading()
+        print("You look around. In the bushes, there's something moving.")
+        time.sleep(0.8)
+        print ("Suddenly, a figure comes out, but it's familiar...")
+    elif choice2 == "2":
+        loading()
+        print("You choose to stay down on the ground. Suddenly, you hear something getting closer!")
+        time.sleep(0.8)
+        print ("You screamed in fear as it scared you from behind! But you recognized who it was...")
+    else: 
+        print("Invalid! Try again.")
+
+
 
 def game_loop():
     user = login()
 
     choice1 = input("Would you like to start the game? (yes to start, no to quit): ").lower()
-    Game = Not_started
-    
-    while Game == Not_started: 
+    unstarted = "unstarted"
+    started = "started"
+    game_status = unstarted
+
+    while game_status == unstarted:
         if choice1 == "yes":
             start_game()  
             print()
             print(f"{user.name}'s game has started.")
             print('Here is your user!')
             print(user)
-            Game = started
+            game_status = started
             story()
         elif choice1 == "no":
             print("Exiting the game. Goodbye!")
