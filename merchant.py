@@ -44,3 +44,13 @@ class Armor:
         print(f"Armor reduces damage by {self.health}. Final damage taken: {reduced_damage}")
         return reduced_damage
 
+class Potion:
+    def __init__(self, health):
+        self.health = health
+    
+    def heal(self, current_health):
+        new_health = current_health + self.health
+        print(f"You have used a potion. You healed {self.health} health. Your new health is {new_health}.")
+        return new_health
+
+    
