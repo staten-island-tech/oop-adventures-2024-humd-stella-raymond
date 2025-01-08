@@ -72,13 +72,15 @@ def guess_the_number():
     if weapon_name not in weapons:
         print("Invalid weapon choice!")
         return
-    
+
     # Get the selected weapon's critchance
     selected_weapon = weapons[weapon_name]
     critchance = selected_weapon.critchance
+    base_damage = selected_weapon.damage
     print(f"You've selected {weapon_name}. Your critical chance is {critchance}%.")
+    print(f"You also have a base damage of {base_damage}.")
     
-    correct_numbers = generate_random_numbers(38)  # You can adjust the count
+    correct_numbers = generate_random_numbers(critchance)  # You can adjust the count
     print(f"Hint: There are {len(correct_numbers)} possible correct numbers.")
 
     # Simulate critical hit chance by determining if the guess falls under the critchance
@@ -93,7 +95,9 @@ def guess_the_number():
             # Simulate if the guess is a critical hit based on critchance
             random_chance = random.randint(1, 100)
             if random_chance <= critchance:
+                damage = base_damage * 1.5
                 print("Critical Hit! You guessed correctly and scored a critical hit!")
+                print(f"Your damage has been boosted to {damage}")
             else:
                 print("You guessed correctly!")
             break
