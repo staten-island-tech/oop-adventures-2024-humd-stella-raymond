@@ -1,5 +1,16 @@
 import time
 
+""" class Weapon:
+    def __init__(self, name, damage, cost, crit_chance=None):
+        self.name = name
+        self.damage = damage
+        self.cost = cost
+        self.crit_chance = crit_chance  
+
+    def __str__(self):
+        crit_info = f" - Crit Chance: {self.crit_chance}" if self.crit_chance else ""
+        return f"{self.name} - Damage: {self.damage} - Cost: {self.cost} coins{crit_info}"
+
 class Merchant:
     def __init__(self, weapons, potions, armor, products):
         self.weapons = weapons
@@ -18,23 +29,13 @@ class Merchant:
             print("You do not have enough coins to purchase this item.")
             return user_balance
 
-weapons = {
-    "Basic Sword": {"damage": 8, "cost": 9},
-    "Silver Sword": {"damage": 10, "cost": 16, "crit chance": "20%"},
-    "Basic Scythe": {"damage": 14, "cost": 20, "crit chance": "23%"},
-    "Magic Wand": {"damage": 20, "cost": 40, "crit chance": "26%"},
-    "Undead Scythe": {"damage": 23, "cost": 55, "crit chance": "29%"},
-    "Staff": {"damage": 28, "cost": 86, "crit chance": "32%"},
-    "Holy Staff": {"damage": 36, "cost": 130, "crit chance": "35%"},
-    "Celestial Blade": {"damage": 47, "cost": 200, "crit chance": "38%"}
-}
 
 merchant = Merchant(
-    weapons = weapons,
+    #weapons = ["weapon'],
     potions = ["Healing Potion"],
     armor = ["Armor"],
     products = ["products"]
-)
+) """
 
 class User:
     def __init__(self, name, HP, money, attack):
@@ -78,7 +79,7 @@ def login():
     
     user = User(name=name, HP=100, money=0, attack=10)
     
-    print(f"Welcome to the game, {user.name}!")
+    print(f"Welcome to GAME NAME, {user.name}!")
     return user
 
 def start_game():
@@ -88,21 +89,56 @@ def start_game():
         print(".", end="", flush=True) 
     # game logic
 
+def loading():
+    for i in range(3): 
+        time.sleep(0.3)  
+        print(".", end="", flush=True) 
+    print()
+
+def time_between():
+    loading()
+    time.sleep(1)
+
+def story():
+    time_between()
+    print("You wake up in a dark and quiet forest. What happened? You can't remember...")
+
+    time_between()
+    print("There's suddenly a loud sound. BAM!")
+
+    time.sleep(0.8)
+    choice2 = input("Will you choose to investigate?").capitalize()
+
+    if choice2 == "Yes":
+        loading()
+        print("You look around. In the bushes, there's something moving.")
+        time.sleep(0.8)
+        print ("Suddenly, a figure comes out, but it's familiar...")
+    elif choice2 == "No":
+        loading()
+        print("You choose to stay down on the ground. Suddenly, you hear something getting closer!")
+    else: 
+        print("Invalid! Try again.")
+
 def game_loop():
     user = login()
 
-    choice = input("Would you like to start the game? (yes to start, no to quit): ").lower()
+    choice1 = input("Would you like to start the game? (yes to start, no to quit): ").lower()
+    Game = Not_started
     
-    if choice == "yes":
-        start_game()  
-        print()
-        print(f"{user.name}'s game has started.")
-        print('Here is your user!')
-        print(user)
-    elif choice == "no":
-        print("Exiting the game. Goodbye!")
-    else:
-        print("Invalid choice. Please try again")
+    while Game == Not_started: 
+        if choice1 == "yes":
+            start_game()  
+            print()
+            print(f"{user.name}'s game has started.")
+            print('Here is your user!')
+            print(user)
+            Game = started
+            story()
+        elif choice1 == "no":
+            print("Exiting the game. Goodbye!")
+        else:
+            print("Invalid choice. Please try again")
 
 if __name__ == "__main__":
     game_loop()
