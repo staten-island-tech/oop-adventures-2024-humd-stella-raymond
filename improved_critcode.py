@@ -1,10 +1,8 @@
 import random
 
-# Function to generate random numbers
 def generate_random_numbers(count, start=1, end=100):
     return [random.randint(start, end) for _ in range(count)]
 
-# Weapon class and subclasses
 class Weapon:
     def __init__(self, name, damage, price, critchance):
         self.name = name
@@ -48,15 +46,12 @@ class CelestialBlade(Weapon):
     def __init__(self, name):
         super().__init__(name, 47, 200, 38)
 
-# Function to simulate critical chance and guess the number
 def guess_the_number():
     print("Welcome to the Number Guessing Game!")
     print("I've selected some random numbers between 1 and 100.")
-    
-    # Ask the user for their weapon choice
+
     weapon_name = input("Enter your weapon (Stick, BasicSword, SilverSword, BasicScythe, MagicWand, UndeadScythe, Staff, HolyStaff, CelestialBlade): ")
 
-    # Map user input to weapon class
     weapons = {
         "Stick": Stick("Stick"),
         "BasicSword": BasicSword("BasicSword"),
@@ -73,36 +68,34 @@ def guess_the_number():
         print("Invalid weapon choice!")
         return
 
-    # Get the selected weapon's critchance
     selected_weapon = weapons[weapon_name]
     critchance = selected_weapon.critchance
     base_damage = selected_weapon.damage
     print(f"You've selected {weapon_name}. Your critical chance is {critchance}%.")
     print(f"You also have a base damage of {base_damage}.")
     
-    correct_numbers = generate_random_numbers(critchance)  # You can adjust the count
+    correct_numbers = generate_random_numbers(critchance) 
     print(f"Hint: There are {len(correct_numbers)} possible correct numbers.")
 
-    # Simulate critical hit chance by determining if the guess falls under the critchance
-    while True:
-        try:
-            user_guess = int(input("Enter your guess (1-100): "))
-        except ValueError:
-            print("Please enter a valid number.")
-            continue
+    try:
+        user_guess = int(input("Enter your guess (1-100): "))
+    except ValueError:
+        print("Please enter a valid number.")
+        return
 
-        if user_guess in correct_numbers:
-            # Simulate if the guess is a critical hit based on critchance
-            random_chance = random.randint(1, 100)
-            if random_chance <= critchance:
-                damage = base_damage * 1.5
-                print("Critical Hit! You guessed correctly and scored a critical hit!")
-                print(f"Your damage has been boosted to {damage}")
-            else:
-                print("You guessed correctly!")
-            break
+    if user_guess in correct_numbers:
+        # Always calculate the boosted damage
+        random_chance = random.randint(1, 100)
+        if random_chance <= critchance:
+            damage = base_damage * 1.5
+            print("Critical Hit! You guessed correctly and scored a critical hit!")
         else:
-            print("Incorrect. Here are all the possible correct answers:")
-            print(", ".join(map(str, correct_numbers)))
+            damage = base_damage * 1.5  # Always apply the boost, even if it's not a critical hit
+        
+        print(f"You guessed correctly! You landed a critical hit!")
+        print(f"Your final boosted damage is {damage}.")
+    else:
+        print("Incorrect. Here are all the possible correct answers:")
+        print(", ".join(map(str, correct_numbers)))
 
 guess_the_number()
