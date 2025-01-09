@@ -27,17 +27,11 @@ weapons = {
     "Celestial Blade": {"damage": 47, "cost": 200, "crit chance": "38%"}
 }
 
-merchant = Merchant(
-    weapons = weapons,
-    potions = ["Healing Potion"],
-    armor = ["Armor"],
-    products = ["products"]
-)
-
 class Armor:
-    def __init__(self, health, damage):
+    def __init__(self, health, damage, cost=50):
         self.health = health
         self.damage = damage
+        self.cost = cost
 
     def take_damage(self, damage):
         reduced_damage = max(0, self.health - damage)
@@ -45,12 +39,18 @@ class Armor:
         return reduced_damage
 
 class Potion:
-    def __init__(self, health):
+    def __init__(self, health, cost=5):
         self.health = health
+        self.cost = cost
     
     def heal(self, current_health):
         new_health = current_health + self.health
         print(f"You have used a potion. You healed {self.health} health. Your new health is {new_health}.")
         return new_health
 
-    
+merchant = Merchant(
+    weapons = weapons,
+    potions = ["Potion"],
+    armor = ["Armor"],
+    products = ["products"]
+)
