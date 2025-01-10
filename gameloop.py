@@ -94,7 +94,7 @@ class User:
 
 
 def login():
-    name = input("Enter your name: ")
+    name = input("Enter your username: ")
     password = input("Enter your password: ")  # Password is not being validated here
     
     user = User(name=name, HP=100, money=0, attack=10)
@@ -104,24 +104,33 @@ def login():
 
 def start_game():
     print("Starting the game...")
-    for i in range(5): 
+    for i in range(3): 
         time.sleep(0.5)  
-        print(".", end="", flush=True) 
+        print("☘︎",".", end="", flush=True) 
     # game logic
 
 def loading():
     for i in range(3): 
-        time.sleep(0.3)  
-        print(".", end="", flush=True) 
+        time.sleep(0.4)  
+        print("☘︎", ".", end="", flush=True) 
     print()
 
+def printing_inventory_story(user):
+    print_inventory = input("Press I to show your inventory.").capitalize()
+    while True:
+        if print_inventory == "I":
+            print("Your Inventory:")
+            for item in user.inventory:
+                print(f"{item.name} - Damage: {item.damage}")
+            break
+        else:
+            print("Invalid! Try again!")
+
 def story(user):
-    loading()
     time.sleep(1)
     print("You wake up in a dark and quiet forest. What happened? You can't remember...")
 
-    loading()
-    time.sleep(1)
+    time.sleep(2)
     print("There's suddenly a loud sound of leaves rustling!")
 
     time.sleep(0.8)
@@ -131,52 +140,66 @@ def story(user):
 
         if choice2 == "Yes":
             loading()
+            time.sleep(2)
             print("You look around. In the bushes, there's something moving.")
             time.sleep(0.8)
             print ("Suddenly, a figure comes out, but it's familiar...")
             break
         elif choice2 == "No":
             loading()
+            time.sleep(2)
             print("You choose to stay down on the ground. Suddenly, you hear something getting closer!")
             time.sleep(0.8)
-            print ("You screamed in fear as it scared you from behind! But you recognized who it was...")
+            print ("You screamed in fear as it scared you from behind! But you recognized who they were...")
             break
         else: 
             print("Invalid! Try again.")
     
-    loading()
-    time.sleep(1)
+    time.sleep(2)
     print("It's the wizard! Who lived in the village! And the Merchant!")
 
-    time.sleep(0.8)
+    time.sleep(2)
     choice3 = input("You're still confused. What would you like to ask them? 1) What happened? 2) Where am I?").capitalize()
 
     while True:
         if choice3 == "1":
-            loading()
-            print('"Where am I?" You ask.')
+            time.sleep(2)
+            print('"What happened?" You ask.')
             time.sleep(0.8)
             print ('Merchant: Our village was burnt down by the evil king. They refused to give him extra money.')
             time.sleep(2)
             print ('Wizard: The king becomes more evil day by day. We need your help to stop him. Take this stick to start out.')
-            time.sleep(0.8)
-            user.inventory.append(stick)
-            print ('You can check your inventory any time after the story is over in the options.')
-            time.sleep(2)
-            print("Your Inventory:")
-            for item in user.inventory:
-                print(f"{item.name} - Damage: {item.damage}")
             break
 
         elif choice3 == "2":
-            loading()
-            print("You choose to stay down on the ground. Suddenly, you hear something getting closer!")
+            time.sleep(2)
+            print('"Where am I?" You ask.')
             time.sleep(0.8)
-            print ("You screamed in fear as it scared you from behind! But you recognized who it was...")
+            print ('Merchant: Our village was burnt down by the evil king. We have been hiding out in the dark forest, and we found you here.')
+            time.sleep(2)
+            print('Wizard: The evil king burnt the village down since we refused to give him gold. We need your help to stop him. Take this stick to start out.')
             break
-        else: 
-            print("Invalid! Try again.")
+    
+    time.sleep(0.8)
+    user.inventory.append(stick)
+    print ('INSTRUCTION: You can check your inventory any time after the story is over in the options. This lets you see potions, armor, and weapons.')
+    time.sleep(2)
+    printing_inventory_story(user)
 
+    time.sleep(2)
+    print("Merchant: Take some coins and potions too.")
+    time.sleep(2)
+    print("INSTRUCTION: You can always buy some weapons or potions to heal.Enemies in each zone drop coins.")
+    user.money += 20
+    print_money = input("Press C to show your coins.").capitalize() 
+    while True:
+        if print_money == "C":
+            print(f"Your Coins: {user.money}")
+            break
+        else:
+            print("Invalid! Try again!")
+            print_money = input("Press C to show your coins.").capitalize()
+            
 
 
 def game_loop():
