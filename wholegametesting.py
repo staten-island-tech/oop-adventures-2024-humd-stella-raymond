@@ -1,5 +1,7 @@
 import time
 import pygame
+import random
+
 
 pygame.init()  # Initialize all pygame modules
 pygame.mixer.init()  # Initialize mixer
@@ -7,7 +9,16 @@ pygame.mixer.init()  # Initialize mixer
 
 def play_music_for_day_one():
     # This function will play the music once the user has started the game
-    pygame.mixer.music.load("audio-_1_.ogg")  # Replace with the name of your music file
+    pygame.mixer.music.load("dayoneaudio.ogg")  # Replace with the name of your music file
+    
+    pygame.mixer.music.set_volume(0.3)
+
+    pygame.mixer.music.play(-1, 0.0)
+    time.sleep(2)
+
+def play_music_for_day_two():
+    # This function will play the music once the user has started the game
+    pygame.mixer.music.load("daytwoaudio.ogg")  # Replace with the name of your music file
     
     pygame.mixer.music.set_volume(0.3)
 
@@ -219,6 +230,7 @@ staff = Weapon("Staff", 28, 86, crit_chance=32)
 holy_staff = Weapon("Holy Staff", 36, 130, crit_chance=35)
 celestial_blade = Weapon("Celestial Blade", 47, 200, crit_chance=38)
 healing_potion = Potion("Healing Potion", 20, 5)
+ultra_healing_potion = Potion("Ultra Healing Potion",35, 10)
 basic_armor = "Basic Armor"  # Example armor (no class needed for simplicity)
 
 # Create the Merchant with all items
@@ -247,7 +259,34 @@ def loading():
         print("☘︎", ".", end="", flush=True) 
     print()
 
-def story(user):
+#MINIGAMES:
+
+def collect_wood_logs(user):
+    required_logs = 5  # Need 5 logs of wood
+    collected_logs = 0
+
+    print("\nYou need to collect 5 logs of wood to build the shelter! You have 3 seconds for eachone")
+
+    while collected_logs < required_logs:
+        print(f"\nYou have {collected_logs} logs. {required_logs - collected_logs} more to go.")
+        print("Press 'L' to collect a log of wood!")
+
+        # Start time for reaction
+        start_time = time.time()
+
+        # Wait for the player to input the correct key
+        user_input = input("Press 'L': ").lower()
+
+        # Check if the correct key is pressed within 3 seconds
+        if user_input == 'l' and time.time() - start_time < 3:
+            collected_logs += 1
+            print("Good job! You collected a log.")
+        else:
+            print("You missed! Try again.")
+
+    print(f"\nYou collected {collected_logs} logs of wood! The shelter is now ready.")
+
+def dayone(user):
     time.sleep(1)
     print("You wake up in a dark and quiet forest. What happened? You can't remember...")
 
@@ -296,7 +335,7 @@ def story(user):
             time.sleep(2)
             print('"Where am I?" You ask.')
             time.sleep(0.8)
-            print ('Merchant: Our village was burnt down by the evil king. We have been hiding out in the dark forest, and we found you here.')
+            print ('Merchant: Our village was burnt down by the evil king. We have been hiding out in the nearby bright forest, and we found you here.')
             time.sleep(2)
             print('Wizard: The evil king burnt the village down since we refused to give him gold. We need your help to stop him. Take this stick to start out.')
             break
@@ -305,7 +344,9 @@ def story(user):
             print("Invalid! Try again!")
     
     time.sleep(0.8)
+    print(f"{user.name} has received a stick!")
     user.inventory.append(stick)
+    time.sleep(0.8)
     print ('INSTRUCTION: You can check your inventory any time after the story is over in the options. This lets you see potions, armor, and weapons.')
     time.sleep(2)
     while True:
@@ -323,7 +364,9 @@ def story(user):
     print("Merchant: Take some coins and potions too.")
     time.sleep(2)
     print("INSTRUCTION: You can always buy some weapons or potions to heal.Enemies in each zone drop coins.")
-    user.money += 20
+    user.money += 6
+    print(f"{user.name} has received 6 coins!")
+    time.sleep(2)
     print_money = input("Press C to show your coins.").capitalize() 
     while True:
         if print_money == "C":
@@ -344,9 +387,52 @@ def story(user):
         else:
             print("Invalid! Try again!")
     
-    time.sleep(1.0)
+    time.sleep(1)
     print("Merchant: Here's the potions I promised you. During battles, you can use potions to heal.")
-            
+    for i in range(3):
+        user.inventory.append(healing_potion)
+    time.sleep(2)
+    print(f"{user.name} has received 3 potions!")
+    time.sleep(0.3)
+    
+    while True:
+        choice5 = input("Check your inventory once more. (press i)").capitalize()
+        if choice5 == "I":
+            print("Your Inventory")
+            for item in user.inventory:
+                print(item)
+            break
+        else:
+            print("Invalid! Try again!")
+
+    time.sleep(2)
+    print("Wizard: Now, we have to pass through a few areas to get to the Evil King. The Marsh, The Abandoned Village, The Dark Forest, and finally, the King's palace!")
+    time.sleep(3)
+    print("Merchant: Now let's make a shelter. Collect 5 logs of wood to help us.")
+    time.sleep(2)
+    print("Minigame starting...")
+    loading()
+    collect_wood_logs(user)
+    
+    loading()
+    print("Merchant: Great job! Now we can sleep for the night.")
+    time.sleep(1)
+    loading()
+    print(f"Congrats! {user.name} has gone through Day One!")
+    user.inventory.append(ultra_healing_potion)
+    time.sleep(2)
+    print(f"{user.name} has received an ultra potion!")
+    time.sleep(2)
+    print("Your Inventory")
+    for item in user.inventory:
+        print(item)
+    time.sleep(1)
+    print("to be continued...")
+    loading()
+    
+def daytwo(user):
+    print("You wake up in the morning, coming out of the shelter. It's sunny outside.")
+
 def game_loop():
     user = login()
     while True:
@@ -363,7 +449,11 @@ def game_loop():
             loading()
             play_music_for_day_one()
             print("DAY ONE") 
-            story(user)
+            dayone(user)
+            pygame.mixer.music.stop()
+            print("DAY TWO")
+            play_music_for_day_two()
+            daytwo(user)
             break
         elif choice1 == "no":
             print("Exiting the game. Goodbye!")
