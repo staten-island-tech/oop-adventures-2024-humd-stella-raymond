@@ -1,3 +1,41 @@
+""" #Classes:
+Merchant (button on the side)
+Inventory = (weapons, potions w/ effects, armor)
+
+#Weapons:
+Better weapons grow in price (when you buy a new weapon, old weapon is deleted)
+(with every weapon the chance to get a crit becomes higher)
+Spawn in with a stick - 5 hp
+Basic Sword - 8 hp - 9 coins
+Silver Sword - 10 hp - 16 coins - crits start 20%
+Basic Scythe - 14 hp - 20 coins? - crit chance 23%
+Magic Wand- 20 hp - 40 coins- crit chance 26%
+Undead Scythe - 23 hp - 55 coins - crit chance 29%
+Staff - 28 hp - 86 coins - crit chance 32%
+Holy Staff - 36 hp - 130 coins - crit chance 35%
+Celestial Blade- 47 hp - 200 coins - crit chance 38%
+	
+
+Weapons 
+Attack (turnbased)
+Critical Hit (guess the number correctly)(2x weapon attack) 1-3 range
+Guess number to avoid attack - every 2 turns - 1-7 range
+User
+HP: 100 - heal at each town
+Inventory
+8 types of Enemies split across 4 areas
+Slimes: 15 HP - 5 damage/hit - 3 coins
+Goblins : 20 HP - 7 damage/hit - 4 coins
+Zombies: 30 HP - 10 damage/hit -  8 coins
+Skeletons: 35 HP - 13 damage/hit - 9 coins
+Carnivorous plant 45 HP - 25 damage/hit  - 18 coins
+Wolves: 50 HP - 32 damage/hit - 25 coins
+Mages: 60 HP - 50 damage/hit - 40 coins
+Knight: 75 HP - 40 damage/hit - 45 coins 
+
+
+ """
+
 import time
 import pygame
 
@@ -14,7 +52,15 @@ def play_music_for_day_one():
     pygame.mixer.music.play(-1, 0.0)
     time.sleep(2)
 
+class Potion:
+    def __init__(self, name, healing_amount, cost):
+        self.name = name
+        self.healing_amount = healing_amount
+        self.cost = cost
 
+    def __str__(self):
+        return f"{self.name} - Heals {self.healing_amount} HP - Cost: {self.cost} coins"
+    
 class Weapon:
     def __init__(self, name, damage, cost, crit_chance=None):
         self.name = name
