@@ -46,8 +46,8 @@ class enemy:
 
     def attack_user(self, user):
         print(f"{self.name} attacks {user.name} for {self.attack} damage.")
-        user.hp -= self.attack
-        print(f"{user.name} takes {self.attack} damage. Remaining HP: {user.hp}")   
+        user.HP -= self.attack
+        print(f"{user.name} takes {self.attack} damage. Remaining HP: {user.HP}")   
 
 Goblin = enemy("Goblin",20,7,5)
 Zombie = enemy("Zombie",30,10,8)
@@ -121,15 +121,14 @@ class Merchant:
         print(f"Your inventory: {user.inventory}")
         
 class User:
-    def __init__(self, name, HP, money, attack):
+    def __init__(self, name, HP, money):
         self.name = name
         self.HP = HP
-        self.attack = attack
         self.money = money
         self.inventory = []
 
     def __str__(self):
-        return f"Name: {self.name}, HP: {self.HP}, Money: {self.money}, Attack: {self.attack}, Inventory: {self.inventory}"
+        return f"Name: {self.name}, HP: {self.HP}, Money: {self.money}, Inventory: {self.inventory}"
 
     def buy(self, item):
         if self.money >= item.cost:
@@ -138,10 +137,67 @@ class User:
             print(f"Bought {item.name}. Inventory: {self.inventory}")
         else:
             print("Not enough money to buy this item.")
+    
+    def attack(self, weapon, enemy):
+        damage = weapon.damage
+        print(f"{self.name} attacks {enemy.name} with {weapon.name} for {damage} damage.")
+        enemy.take_damage(damage, self)
 
-    def heal(self, amount):
-        self.HP += amount
-        print(f"{self.name} healed! Current HP: {self.HP}")
+    def heal(self):
+        healing_potion = next((item for item in self.inventory if isinstance(item, Potion)), None)
+        
+        if healing_potion:
+            self.HP += healing_potion.healing_amount
+            self.inventory.remove(healing_potion)  # Remove the potion from inventory after use
+            print(f"{self.name} used a {healing_potion.name}. Healed for {healing_potion.healing_amount} HP. Current HP: {self.HP}")
+        else:
+            print(f"{self.name} has no healing potions in their inventory!")
+
+    def die(self):
+        if self.HP <= 0:
+            print(f"\n{self.name} has died.")
+            print("Game Over!")
+
+#BATTLING:
+def battle(user, Goblin):
+    while user.HP > 0 and Goblin.HP > 0:
+        Goblin.attack_user(user) 
+        if user.HP <= 0:
+            user.die()
+            break
+
+        print("Your turn!")
+        print("Choose a weapon:")
+        
+        for item in user.inventory:
+            if isinstance(item, Weapon): 
+                print(f"- {item.name} (Damage: {item.damage})")
+        
+        valid_weapon = False
+        while not valid_weapon:
+            weapon_name = input("Enter the weapon name to use: ")
+            
+            selected_weapon = next((item for item in user.inventory if isinstance(item, Weapon) and item.name.lower() == weapon_name.lower()), None)
+            
+            if selected_weapon:
+                valid_weapon = True
+                print(f"You have selected {selected_weapon.name}.")
+                action1 = input("Choose an action (1 for Attack, 2 for Heal): ")
+
+                if action1 == "1":
+                    user.attack(selected_weapon, Goblin)  
+                elif action1 == "2":
+                    user.heal() 
+                else:
+                    print("Invalid option. Please choose 1 or 2.")
+            else:
+                print(f"{weapon_name} is not in your inventory. Please choose a valid weapon.")
+
+        if Goblin.HP <= 0:
+            print(f"{Goblin.name} has been defeated!")
+            break
+
+        print("\n--- Goblin's Turn ---")
 
 #SHOP AND MAIN MENU:
 def start_shop(user, merchant):
@@ -244,9 +300,9 @@ merchant = Merchant(items=[stick, basic_sword, silver_sword, basic_scythe, magic
 
 def login():
     name = input("Enter your username: ")
-    password = input("Enter your password: ")  # Password is not being validated here
+    password = input("Enter your password: ") 
     
-    user = User(name=name, HP=100, money=0, attack=10)
+    user = User(name=name, HP=100, money=0)
     
     print(f"Welcome to GAME NAME, {user.name}!")
     return user
@@ -472,7 +528,8 @@ def daytwo(user):
     time.sleep(1)
     print("Wizard: Nevermind.")
     time.sleep(1)
-    print("You've been attacked by a gob")
+    print("You've been attacked by a goblin!")
+    battle(user, Goblin)
 
 #GENERAL:
 def game_loop():
