@@ -3,7 +3,6 @@ import time
 import pygame
 import random
 
-
 pygame.init()  # Initialize all pygame modules
 pygame.mixer.init()  # Initialize mixer
 
@@ -27,6 +26,38 @@ def play_music_for_day_two():
     time.sleep(2)
 
 #CLASSES
+class enemy:
+    def __init__(self, name, HP, attack, coin_drop):
+        self.name = name
+        self.HP = HP
+        self.attack = attack
+        self.coin_drop = coin_drop
+
+    def take_damage(self, damage, user):
+        self.HP -= damage
+        print(f"{self.name} takes {damage} damage. Remaining HP: {self.HP}")
+        if self.HP <= 0:
+            self.defeat(user)
+
+    def defeat(self, user):
+        print(f"{self.name} was defeated!")
+        user.money += self.coin_drop
+        print(f"{user.name} earned {self.coin_drop} coins. Total money: {user.money}") 
+
+    def attack_user(self, user):
+        print(f"{self.name} attacks {user.name} for {self.attack} damage.")
+        user.hp -= self.attack
+        print(f"{user.name} takes {self.attack} damage. Remaining HP: {user.hp}")   
+
+Goblin = enemy("Goblin",20,7,5)
+Zombie = enemy("Zombie",30,10,8)
+Skeleton = enemy("Skeleton",35,13,9)
+Plant = enemy("Plant",45,25,18)
+Wolf = enemy("Wolf",50,32,25)
+Mage = enemy("Mage",60,50,40)
+Knight = enemy("Knight",75,40,45)
+EvilKing = enemy("Evil King",125, 65, 0)
+
 class Potion:
     def __init__(self, name, healing_amount, cost):
         self.name = name
@@ -46,6 +77,18 @@ class Weapon:
     def __str__(self):
         crit_info = f" - Crit Chance: {self.crit_chance}" if self.crit_chance else ""
         return f"{self.name} - Damage: {self.damage} - Cost: {self.cost} coins{crit_info}"
+
+stick = Weapon("Stick", 5, 0)  
+basic_sword = Weapon("Basic Sword", 8, 9)
+silver_sword = Weapon("Silver Sword", 10, 16, crit_chance=20)
+basic_scythe = Weapon("Basic Scythe", 14, 20, crit_chance=23)
+magic_wand = Weapon("Magic Wand", 20, 40, crit_chance=26)
+undead_scythe = Weapon("Undead Scythe", 23, 55, crit_chance=29)
+staff = Weapon("Staff", 28, 86, crit_chance=32)
+holy_staff = Weapon("Holy Staff", 36, 130, crit_chance=35)
+celestial_blade = Weapon("Celestial Blade", 47, 200, crit_chance=38)
+healing_potion = Potion("Healing Potion", 20, 5)
+basic_armor = "Basic Armor" 
 
 class Merchant:
     def __init__(self, items):
@@ -77,7 +120,6 @@ class Merchant:
         user.inventory.append(item)
         print(f"Your inventory: {user.inventory}")
         
-
 class User:
     def __init__(self, name, HP, money, attack):
         self.name = name
@@ -124,17 +166,6 @@ def start_shop(user, merchant):
 
         except ValueError:
             print("Please enter a valid number.")
-
-class Weapon:
-    def __init__(self, name, damage, cost, crit_chance=None):
-        self.name = name
-        self.damage = damage
-        self.cost = cost
-        self.crit_chance = crit_chance  
-
-    def __str__(self):
-        crit_info = f" - Crit Chance: {self.crit_chance}" if self.crit_chance else ""
-        return f"{self.name} - Damage: {self.damage} - Cost: {self.cost} coins{crit_info}"
 
 def main_menu(user, merchant):
     while True:
@@ -209,22 +240,7 @@ def start_shop(user, merchant):
         except ValueError:
             print("Please enter a valid number.")
 
-
-stick = Weapon("Stick", 5, 0)  
-basic_sword = Weapon("Basic Sword", 8, 9)
-silver_sword = Weapon("Silver Sword", 10, 16, crit_chance=20)
-basic_scythe = Weapon("Basic Scythe", 14, 20, crit_chance=23)
-magic_wand = Weapon("Magic Wand", 20, 40, crit_chance=26)
-undead_scythe = Weapon("Undead Scythe", 23, 55, crit_chance=29)
-staff = Weapon("Staff", 28, 86, crit_chance=32)
-holy_staff = Weapon("Holy Staff", 36, 130, crit_chance=35)
-celestial_blade = Weapon("Celestial Blade", 47, 200, crit_chance=38)
-healing_potion = Potion("Healing Potion", 20, 5)
-ultra_healing_potion = Potion("Ultra Healing Potion",35, 10)
-basic_armor = "Basic Armor" 
-
 merchant = Merchant(items=[stick, basic_sword, silver_sword, basic_scythe, magic_wand, undead_scythe, staff, holy_staff, celestial_blade, healing_potion, basic_armor])
-
 
 def login():
     name = input("Enter your username: ")
@@ -254,12 +270,12 @@ def collect_wood_logs(user):
     required_logs = 5  # Need 5 logs of wood
     collected_logs = 0
 
-    print("\nYou need to collect 5 logs of wood to build the shelter! You have 3 seconds for eachone")
+    print("\nYou need to collect 5 logs of wood to build the shelter! You have 3 seconds for each one.")
 
     while collected_logs < required_logs:
         print(f"\nYou have {collected_logs} logs. {required_logs - collected_logs} more to go.")
         print("Press 'L' to collect a log of wood!")
-
+        
         # Start time for reaction
         start_time = time.time()
 
@@ -275,12 +291,11 @@ def collect_wood_logs(user):
 
     print(f"\nYou collected {collected_logs} logs of wood! The shelter is now ready.")
 
-
 #STORY:
 
 def dayone(user):
     time.sleep(1)
-    print("You wake up in a dark and quiet forest. What happened? You can't remember...")
+    print("You wake up in a quiet forest. What happened? You can't remember...")
 
     time.sleep(2)
     print("There's suddenly a loud sound of leaves rustling!")
@@ -411,9 +426,9 @@ def dayone(user):
     time.sleep(1)
     loading()
     print(f"Congrats! {user.name} has gone through Day One!")
-    user.inventory.append(ultra_healing_potion)
+    user.inventory.append(healing_potion)
     time.sleep(2)
-    print(f"{user.name} has received an ultra potion!")
+    print(f"{user.name} has received a healing potion!")
     time.sleep(2)
     print("Your Inventory")
     for item in user.inventory:
@@ -429,30 +444,39 @@ def daytwo(user):
     while True:
         choice6 = input(" 1) Yes! Let's go! 2) No... I need to pack.").capitalize()
         if choice6 == "1":
-            time.sleep(2)
-            print("'Yes! Let's go!" 'You say.')
+            time.sleep(1.3)
+            print("Yes! Let's go! You say.")
             time.sleep(0.8)
             print ('Merchant: First stop, the Marsh!')
             time.sleep(2)
-            print ('Wizard: Be careful. There are slimes and goblins here. You can use your stick to attack them now.')
+            print ('Wizard: Be careful. There are goblins here. You can use your stick to attack them now.')
             break
 
         elif choice6 == "2":
             time.sleep(2)
-            print('"Where am I?" You ask.')
+            print('Merchant: Hurry and pack everything!')
             time.sleep(0.8)
-            print ('Merchant: Our village was burnt down by the evil king. We have been hiding out in the nearby bright forest, and we found you here.')
+            print ('Wizard: We must leave for the Marsh soon! Make sure to bring your stick. There are goblins here.')
             time.sleep(2)
-            print('Wizard: The evil king burnt the village down since we refused to give him gold. We need your help to stop him. Take this stick to start out.')
+            print('You pack your bags quickly. Soon enough, you are ready to go!')
             break
         
         else:
             print("Invalid! Try again!")
-    
 
+    print("INSTRUCTION: Be careful. There are goblins around. One can potentially attack at any time.")
+    time.sleep(1)
+    print("Wizard: Okay, we just need to get through this area without being attacked...")
+    time.sleep(2)
+    print(f"Merchant: {user.name}! Watch out!")
+    time.sleep(1)
+    print("Wizard: Nevermind.")
+    time.sleep(1)
+    print("You've been attacked by a gob")
 
 #GENERAL:
 def game_loop():
+
     user = login()
     while True:
         choice1 = input("Would you like to start the game? (yes to start, no to quit): ").lower()
