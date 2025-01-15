@@ -386,9 +386,7 @@ def number_guess_game(user):
     if attempts == 0:
         print(f"Sorry! You've run out of attempts. The correct number was {answer}.")
 
-
 #STORY:
-
 def dayone(user):
     time.sleep(1)
     print("You wake up in a quiet forest. What happened? You can't remember...")
@@ -615,6 +613,7 @@ def daytwo(user):
             print("Minigame starting...")
             loading()
             time.sleep(2)
+            number_guess_game(user)
             break
         elif choice8 == "No":
             Goblin.HP = 20
@@ -637,6 +636,7 @@ def daytwo(user):
     print(f"{user.name} has received a healing potion!")
     time.sleep(1)
     print(f"The wizard has healed {user.name}!")
+    user.HP = 100
     time.sleep(2)
     print("Your Inventory")
     for item in user.inventory:
