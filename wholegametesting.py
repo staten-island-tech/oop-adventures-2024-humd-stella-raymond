@@ -114,10 +114,11 @@ class Merchant:
     def buy_item(self, user, item_idx):
         """Allows the user to buy an item based on the index."""
         item = self.items[item_idx]
-        # Sell the item to the user and update their balance
         user.money = self.sell(item, user.money)
         user.inventory.append(item)
-        print(f"Your inventory: {user.inventory}")
+        print("Your Inventory")
+        for item in user.inventory:
+            print(item)
         
 class User:
     def __init__(self, name, HP, money):
@@ -289,7 +290,6 @@ def tutorial_main_menu(user, merchant):
             print("Invalid choice. Please try again.")
 
 def start_shop(user, merchant):
-    """A simple shop interaction where the user can buy items from the merchant."""
     while True:
         # Show available items
         merchant.show_shop()
@@ -302,7 +302,7 @@ def start_shop(user, merchant):
                 break
 
             if item_idx < 0 or item_idx >= len(merchant.items):
-                print("Invalid selection. Please try again.")
+                print("Invalid. Please try again.")
                 continue
 
             # Buy the item and update the user’s balance
