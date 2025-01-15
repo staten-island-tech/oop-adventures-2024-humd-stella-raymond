@@ -3,8 +3,8 @@ import time
 import pygame
 import random
 
-pygame.init()  # Initialize all pygame modules
-pygame.mixer.init()  # Initialize mixer
+pygame.init()  
+pygame.mixer.init()  
 
 #MUSIC
 def play_music_for_day_one():
@@ -88,7 +88,6 @@ staff = Weapon("Staff", 28, 86, crit_chance=32)
 holy_staff = Weapon("Holy Staff", 36, 130, crit_chance=35)
 celestial_blade = Weapon("Celestial Blade", 47, 200, crit_chance=38)
 healing_potion = Potion("Healing Potion", 20, 5)
-basic_armor = "Basic Armor" 
 
 class Merchant:
     def __init__(self, items):
@@ -157,6 +156,12 @@ class User:
         if self.HP <= 0:
             print(f"\n{self.name} has died.")
             print("Game Over!")
+        restart_choice = input("Would you like to restart the game? (yes/no): ").lower()
+        if restart_choice == "yes":
+            game_loop()
+        else:
+            print("Goodbye!")
+            return
 
 #BATTLING:
 def battle(user, Goblin):
@@ -199,7 +204,7 @@ def battle(user, Goblin):
 
         print("\n--- Goblin's Turn ---")
 
-#SHOP AND MAIN MENU:
+#SHOP, MAIN MENU, AND IMPORTANT THINGS:
 def start_shop(user, merchant):
     """A simple shop interaction where the user can buy items from the merchant."""
     while True:
@@ -222,6 +227,14 @@ def start_shop(user, merchant):
 
         except ValueError:
             print("Please enter a valid number.")
+
+def activate_menu(user,merchant):
+    while True: 
+        activation = input("Press M if you would like to access the main menu at this point.").capitalize()
+        if activation == "M":
+            main_menu(user, merchant)
+        else:
+            break
 
 def main_menu(user, merchant):
     while True:
@@ -296,7 +309,7 @@ def start_shop(user, merchant):
         except ValueError:
             print("Please enter a valid number.")
 
-merchant = Merchant(items=[stick, basic_sword, silver_sword, basic_scythe, magic_wand, undead_scythe, staff, holy_staff, celestial_blade, healing_potion, basic_armor])
+merchant = Merchant(items=[stick, basic_sword, silver_sword, basic_scythe, magic_wand, undead_scythe, staff, holy_staff, celestial_blade, healing_potion,])
 
 def login():
     name = input("Enter your username: ")
@@ -312,7 +325,6 @@ def start_game():
     for i in range(3): 
         time.sleep(0.5)  
         print("☘︎",".", end="", flush=True) 
-    # game logic
 
 def loading():
     for i in range(3): 
@@ -530,6 +542,10 @@ def daytwo(user):
     time.sleep(1)
     print("You've been attacked by a goblin!")
     battle(user, Goblin)
+    loading()
+    activate_menu(user,merchant)
+    print("Wizard: Wow! Good job!")
+    
 
 #GENERAL:
 def game_loop():
