@@ -257,7 +257,7 @@ def main_menu(user, merchant):
             start_shop(user, merchant) 
         elif choice == "C":
             print(f"\nYour Coins: {user.money}")
-        elif choice == "E":  # Exit the game
+        elif choice == "E": 
             loading()
             print("Goodbye!")
             break
