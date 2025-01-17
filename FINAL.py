@@ -66,6 +66,12 @@ class Potion:
 
     def __str__(self):
         return f"{self.name} - Heals {self.healing_amount} HP - Cost: {self.cost} coins"
+
+class AttackBuff(Potion):
+    def __init__(self, name, healing_amount, cost, attack_boost, duration):
+        super().__init__(name, healing_amount, cost) 
+        self.attack_boost = attack_boost  
+        self.duration = duration
     
 class Weapon:
     def __init__(self, name, damage, cost, crit_chance=None):
@@ -205,7 +211,7 @@ def battle(user, Goblin):
 
         print("\n--- Goblin's Turn ---")
 
-#SHOP, MAIN MENU, AND IMPORTANT THINGS:
+#SHOP, MAIN MENU, LOGIN:
 def start_shop(user, merchant):
     """A simple shop interaction where the user can buy items from the merchant."""
     while True:
@@ -367,7 +373,7 @@ def number_guess_game(user):
     chances = 5
     while chances > 0:
         try:
-            guess = int(input(f"You have {attempts} attempts left. Please enter your guess: "))
+            guess = int(input(f"You have {chances} chances left. Please enter your guess: "))
             if guess < 1 or guess > 15:
                 print("Please guess a number between 1 and 15.")
                 continue
@@ -378,24 +384,17 @@ def number_guess_game(user):
                 break
             else:
                 print("Wrong guess! Try again.")
-                attempts -= 1
+                chances -= 1
         
         except ValueError:
             print("Invalid input! Please enter a number.")
 
-    if attempts == 0:
-        print(f"Sorry! You've run out of attempts. The correct number was {answer}.")
+    if chances == 0:
+        print(f"Sorry! You've run out of chances to guess. The correct number was {answer}.")
 
-#STORY:
-def dayone(user):
-    time.sleep(1)
-    print("You wake up in a quiet forest. What happened? You can't remember...")
+#CHOICES: 
 
-    time.sleep(2)
-    print("There's suddenly a loud sound of leaves rustling!")
-
-    time.sleep(0.8)
-
+def choice2():
     while True:
         choice2 = input("Will you choose to investigate? Yes or no?").capitalize()
 
@@ -415,13 +414,9 @@ def dayone(user):
             break
         else: 
             print("Invalid! Try again.")
-    
-    time.sleep(2)
-    print("It's the wizard! Who lived in the village! And the Merchant!")
 
-    time.sleep(2)
-
-    while True:
+def choice3():
+     while True:
         choice3 = input("You're still confused. What would you like to ask them? 1) What happened? 2) Where am I?").capitalize()
         if choice3 == "1":
             time.sleep(2)
@@ -443,13 +438,8 @@ def dayone(user):
         
         else:
             print("Invalid! Try again!")
-    
-    time.sleep(0.8)
-    print(f"{user.name} has received a stick!")
-    user.inventory.append(stick)
-    time.sleep(0.8)
-    print ('INSTRUCTION: You can check your inventory in the menu. This lets you see potions, armor, and weapons.')
-    time.sleep(2)
+
+def choice4(user):
     while True:
         choice4 = input("Press I to see your inventory").capitalize()
         if choice4 == "I":
@@ -459,7 +449,106 @@ def dayone(user):
             break
         else:
             print("Invalid! Try again!")
+    
+def choice5(user):
+    while True:
+        choice5 = input("Check your inventory once more. (press i)").capitalize()
+        if choice5 == "I":
+            print("Your Inventory")
+            for item in user.inventory:
+                print(item)
+            break
+        else:
+            print("Invalid! Try again!")
 
+def choice6():
+    while True:
+        choice6 = input(" 1) Yes! Let's go! 2) No... I need to pack.").capitalize()
+        if choice6 == "1":
+            time.sleep(1.3)
+            print("Yes! Let's go! You say.")
+            time.sleep(0.8)
+            print ('Merchant: First stop, the Swamp!')
+            time.sleep(2)
+            print ('Wizard: Be careful. There are goblins here. You can use your stick to attack them now.')
+            break
+
+        elif choice6 == "2":
+            time.sleep(2)
+            print('Merchant: Hurry and pack everything!')
+            time.sleep(0.8)
+            print ('Wizard: We must leave for the Swamp soon! Make sure to bring your stick. There are goblins here.')
+            time.sleep(2)
+            print('You pack your bags quickly. Soon enough, you are ready to go!')
+            break
+        
+        else:
+            print("Invalid! Try again!")
+
+def choice7(user):
+    while True:
+        choice7 = input("Will you choose to investigate? Yes or no?").capitalize()
+        if choice7  == "Yes":
+            loading()
+            time.sleep(2)
+            print("You look around, and slowly move closer to the area behind one of the trees.")
+            time.sleep(0.8)
+            Goblin.HP = 20
+            print("A goblin scares you! You've been attacked!!")
+            battle(user, Goblin) 
+            break
+        elif choice7 == "No":
+            loading()
+            time.sleep(2)
+            print("You choose to continue walking forward.")
+            break
+        else: 
+            print("Invalid! Try again.")
+    
+def choice8(user):
+    choice8 = input("Merchant: Would you like to play a game? Yes, or no?").capitalize()
+    while True:
+        if choice8  == "Yes":
+            print("Minigame starting...")
+            loading()
+            time.sleep(2)
+            number_guess_game(user)
+            break
+        elif choice8 == "No":
+            Goblin.HP = 20
+            print("Instead of playing a game with the Merchant, you walk forward on your own. Suddenly, a goblin surprises you!")
+            battle(user, Goblin)
+            break
+        else: 
+            print("Invalid! Try again.")
+
+#STORY:
+def dayone(user):
+    time.sleep(1)
+    print("You wake up in a quiet forest. What happened? You can't remember...")
+
+    time.sleep(2)
+    print("There's suddenly a loud sound of leaves rustling!")
+
+    time.sleep(0.8)
+
+    choice2()
+    
+    time.sleep(2)
+    print("It's the wizard! Who lived in the village! And the Merchant!")
+
+    time.sleep(2)
+
+    choice3()
+    
+    time.sleep(0.8)
+    print(f"{user.name} has received a stick!")
+    user.inventory.append(stick)
+    time.sleep(0.8)
+    print ('INSTRUCTION: You can check your inventory in the menu. This lets you see potions, armor, and weapons.')
+    time.sleep(2)
+
+    choice4(user)
 
     time.sleep(2)
     print("Merchant: Take some coins and potions too.")
@@ -496,15 +585,7 @@ def dayone(user):
     print(f"{user.name} has received 3 potions!")
     time.sleep(0.3)
     
-    while True:
-        choice5 = input("Check your inventory once more. (press i)").capitalize()
-        if choice5 == "I":
-            print("Your Inventory")
-            for item in user.inventory:
-                print(item)
-            break
-        else:
-            print("Invalid! Try again!")
+    choice5(user)
 
     time.sleep(2)
     print("Wizard: Now, we have to pass through a few areas to get to the Evil King. The Swamp, The Abandoned Village, The Dark Forest, and finally, the King's palace!")
@@ -535,28 +616,8 @@ def daytwo(user):
     print("You wake up in the morning, coming out of the shelter. It's sunny outside.")
     time.sleep(1)
     print(f"Merchant: {user.name}, are you ready to leave for the swamp?")
-    while True:
-        choice6 = input(" 1) Yes! Let's go! 2) No... I need to pack.").capitalize()
-        if choice6 == "1":
-            time.sleep(1.3)
-            print("Yes! Let's go! You say.")
-            time.sleep(0.8)
-            print ('Merchant: First stop, the Swamp!')
-            time.sleep(2)
-            print ('Wizard: Be careful. There are goblins here. You can use your stick to attack them now.')
-            break
 
-        elif choice6 == "2":
-            time.sleep(2)
-            print('Merchant: Hurry and pack everything!')
-            time.sleep(0.8)
-            print ('Wizard: We must leave for the Swamp soon! Make sure to bring your stick. There are goblins here.')
-            time.sleep(2)
-            print('You pack your bags quickly. Soon enough, you are ready to go!')
-            break
-        
-        else:
-            print("Invalid! Try again!")
+    choice6()
 
     print("INSTRUCTION: Each zone has different enemies. There are only goblins around the Swamp. One can potentially attack at any time.")
     time.sleep(1)
@@ -583,50 +644,15 @@ def daytwo(user):
     time.sleep(1)
     print("You suddenly hear some water splashing.")
 
-    while True:
-        choice7 = input("Will you choose to investigate? Yes or no?").capitalize()
-        if choice7  == "Yes":
-            loading()
-            time.sleep(2)
-            print("You look around, and slowly move closer to the area behind one of the trees.")
-            time.sleep(0.8)
-            Goblin.HP = 20
-            print("A goblin scares you! You've been attacked!!")
-            battle(user, Goblin) 
-            break
-        elif choice7 == "No":
-            loading()
-            time.sleep(2)
-            print("You choose to continue walking forward.")
-            break
-        else: 
-            print("Invalid! Try again.")
-    
+    choice7(user)
+
     activate_menu(user,merchant)
     time.sleep(1)
     print("Wizard: These Goblins are all over the place.")
     time.sleep(2)
     print(f"Merchant: This is kind of boring, {user.name}.")
-    choice8 = input("Merchant: Would you like to play a game? Yes, or no?").capitalize()
-    while True:
-        if choice8  == "Yes":
-            print("Minigame starting...")
-            loading()
-            time.sleep(2)
-            number_guess_game(user)
-            break
-        elif choice8 == "No":
-            Goblin.HP = 20
-            print("Instead of playing a game with the Merchant, you walk forward on your own. Suddenly, a goblin surprises you!")
-            battle(user, Goblin)
-            break
-        elif choice7 == "No" and choice8 == "Yes":
-            Goblin.HP = 20
-            print("The merchant changed his mind, and played with the wizard instead.")
-            print("You ended up walking around the swamp on your own, and suddenly got ambushed by a goblin!!")
-            battle(user,Goblin)
-        else: 
-            print("Invalid! Try again.")
+
+    choice8(user)
     
     print("Wizard: We're finally out of the swamp!")
     time.sleep(1)
